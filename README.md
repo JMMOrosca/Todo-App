@@ -22,14 +22,9 @@ PostgreSQL 17
 Git
 
 🛠️ Installation & Setup
-# Clone the repository
 git clone https://github.com/JMMOrosca/Todo-App.git
 cd todo-app
-
-# Start application with Docker Compose
 docker-compose up -d
-
-# Application will be available at http://localhost:8080
 
 📡 API Endpoints
 Base URL
