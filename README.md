@@ -6,7 +6,12 @@ Deployment of TODO Application to Google Cloud Run
 - A Google Cloud project set up.
 - Billing enabled for your project.
 
-## 1. Configure Google Cloud
+
+## 1. Clone TODO Application
+
+git clone https://github.com/JMMOrosca/Todo-App.git
+
+## 2. Configure Google Cloud
 
 1. Authenticate with your Google account:
 
@@ -16,7 +21,7 @@ gcloud config set project YOUR_PROJECT_ID
 
 gcloud services enable run.googleapis.com containerregistry.googleapis.com artifactregistry.googleapis.com
 
-2. Create an Artifact Registry Repository
+## 3. Create an Artifact Registry Repository
 
 Artifact Registry stores Docker images.
 
@@ -24,7 +29,7 @@ gcloud artifacts repositories create springboot-repo \
     --repository-format=docker \
     --location=us-central1 \
     --description="Docker repository for Spring Boot app"
-3. Create Cloud SQL Instance
+## 4. Create Cloud SQL Instance
 
 gcloud sql instances create todo-postgres \
   --database-version=POSTGRES_15 \
@@ -32,18 +37,17 @@ gcloud sql instances create todo-postgres \
   --region=asia-southeast1 \
   --root-password=YOUR_SECURE_PASSWORD \
   --storage-type=HDD \
-  --storage-size=10GB
-
-# Create database
+  --storage-size=10GB 
+# Create database 
 gcloud sql databases create tododb \
   --instance=todo-postgres
 
-# Get connection name
+# Get connection name 
 gcloud sql instances describe todo-postgres \
   --format='value(connectionName)'
 
 
-4. Build Docker Image
+## 5. Build Docker Image
 
 Create a Dockerfile in your project root:
 
@@ -64,15 +68,15 @@ EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
-Build Docker image:
+# Build Docker image:
 
 docker build -t asia-southeast1-docker.pkg.dev/YOUR_PROJECT_ID/springboot-repo/todo-app:latest .
 
-5. Push Docker Image to Artifact Registry
+# Push Docker Image to Artifact Registry
 
 docker push asia-southeast1-docker.pkg.dev/YOUR_PROJECT_ID/springboot-repo/todo-app:latest
 
-6. Deploy to Cloud Run
+## 6.Deploy to Cloud Run
 
 Go to Navigation Menu (☰) → Cloud Run
 
@@ -89,7 +93,7 @@ Tag: v1.0.0
 
 Click SELECT
 
-Configure Service:
+# Configure Service:
 
 Service name: todo-app
 Region: asia-southeast1
@@ -102,7 +106,7 @@ Maximum: 10
 
 
 
-Container settings:
+# Container settings:
 
 Click CONTAINER, NETWORKING, SECURITY
 Container port: 8080
