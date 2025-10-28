@@ -3,11 +3,16 @@ spring:
     name: todo-app
 
   datasource:
-    url: ${DATABASE_URL}
+    url: jdbc:postgresql:///${DATABASE_NAME}?cloudSqlInstance=${CLOUD_SQL_CONNECTION_NAME}&socketFactory=com.google.cloud.sql.postgres.SocketFactory
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver
-
+  cloud:
+    gcp:
+      sql:
+        enabled: true
+        databases-name: tododb
+        instance-connection-name: ${CLOUD_SQL_CONNECTION_NAME}
   jpa:
     hibernate:
       ddl-auto: update
